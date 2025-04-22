@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import CoverLetter from "./pages/CoverLetter";
 import axios from "axios";
-import Header from "./components/Header";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -23,8 +25,13 @@ function App() {
 
   return (
     <>
-      <Header />
-      {fruits}
+      <BrowserRouter>
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="/tools/coverletter" element={<CoverLetter />} />
+      </Routes>
+      </BrowserRouter>
+      {/* {fruits} */}
     </>
   );
 }

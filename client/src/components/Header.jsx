@@ -3,7 +3,9 @@ export default function Header() {
     <header>
       <nav>
         <a href="/">Job Seeker's Companion</a>
-        <a>Cover Letter</a>
+        <a href="/">Resume</a>
+        <a href="/tools/coverletter">Cover Letter</a>
+        <a href="/">Account</a>
       </nav>
     </header>
   );
