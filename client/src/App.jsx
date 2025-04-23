@@ -26,10 +26,10 @@ function App() {
   return (
     <>
       <BrowserRouter>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="/tools/coverletter" element={<CoverLetter />} />
-      </Routes>
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/tools/coverletter" element={<CoverLetter />} />
+        </Routes>
       </BrowserRouter>
       {/* {fruits} */}
     </>

@@ -7,9 +7,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+const coverLetterRoute = require("./routes/coverLetter");
+
 app.get("/api", (req, res) => {
   res.json({ fruits: ["apple", "orange", "banana"] });
 });
+
+app.use("/api/coverletter", coverLetterRoute);
 
 app.listen(8080, () => {
   console.log("Server started on port 8080");
