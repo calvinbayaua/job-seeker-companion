@@ -5,23 +5,22 @@ import CoverLetter from "./pages/CoverLetter";
 import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [array, setArray] = useState([]);
+  // const [array, setArray] = useState([]);
 
-  const fetchAPI = async () => {
-    const response = await axios.get("http://localhost:8080/api");
-    setArray(response.data.fruits);
-  };
+  // const fetchAPI = async () => {
+  //   const response = await axios.get("http://localhost:8080/api");
+  //   setArray(response.data.fruits);
+  // };
 
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+  // useEffect(() => {
+  //   fetchAPI();
+  // }, []);
 
-  const fruits = array.map((fruit, index) => (
-    <div key={index}>
-      <p>{fruit}</p>
-    </div>
-  ));
+  // const fruits = array.map((fruit, index) => (
+  //   <div key={index}>
+  //     <p>{fruit}</p>
+  //   </div>
+  // ));
 
   return (
     <>
