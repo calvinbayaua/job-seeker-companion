@@ -4,6 +4,7 @@ import Header from "../components/Header";
 
 export default function CoverLetter() {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [fields, setFields] = useState([]);
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -23,29 +24,44 @@ export default function CoverLetter() {
           },
         }
       );
-      console.log("Server Response:", response.data);
+      setFields(response.data.fields);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
-  const fileData = () => {
-    if (selectedFile) {
-      return (
-        <div>
-          <h2>File Details:</h2>
-          <p>File Name: {selectedFile.name}</p>
-          <p>File Type: {selectedFile.type}</p>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <br />
-          <h4>Choose before Pressing the Upload button</h4>
-        </div>
-      );
-    }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form submitted!");
   };
+
+  // Convert to axios
+  const fieldForms = (
+    <form onSubmit={handleSubmit} method="POST">
+      {fields.map((field) => {
+        return (
+          <div key={field}>
+            <label htmlFor={field}>{field}: </label>
+            <input id={field} name={field} type="text" />
+          </div>
+        );
+      })}
+      <button>Submit</button>
+    </form>
+  );
+
+  const fileData = selectedFile ? (
+    <div>
+      <h2>File Details:</h2>
+      <p>File Name: {selectedFile.name}</p>
+      <p>File Type: {selectedFile.type}</p>
+    </div>
+  ) : (
+    <div>
+      <br />
+      <h4>Choose before Pressing the Upload button</h4>
+    </div>
+  );
 
   return (
     <div>
@@ -56,7 +72,8 @@ export default function CoverLetter() {
         <input type="file" onChange={onFileChange} />
         <button onClick={onFileUpload}>Upload!</button>
       </div>
-      {fileData()}
+      {fileData}
+      {fieldForms}
     </div>
   );
 }
