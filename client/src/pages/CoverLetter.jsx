@@ -4,11 +4,16 @@ import Header from "../components/Header";
 
 export default function CoverLetter() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState({});
+
+  // Set selectedFile to new selected file
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-  const onFileUpload = async () => {
+
+  // Send POST request to backend when Upload button is pressed
+  // Initialize fields keys from backend response
+  const onUpload = async () => {
     if (!selectedFile) return;
 
     const formData = new FormData();
@@ -16,7 +21,7 @@ export default function CoverLetter() {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/coverletter",
+        "http://localhost:8080/api/coverletter/upload",
         formData,
         {
           headers: {
@@ -24,39 +29,57 @@ export default function CoverLetter() {
           },
         }
       );
-      setFields(response.data.fields);
+
+      // * Consider changing fields directly
+      const initialFields = {};
+      response.data.fields.forEach((field) => {
+        initialFields[field] = "";
+      });
+      setFields(initialFields);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-  const handleSubmit = (event) => {
+  // Send POST request to backend when Submit button is pressed
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted!");
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/coverletter/submit",
+        fields
+      );
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+    console.log("Submitted fields:", fields);
   };
 
-  // Convert to axios
+  // Initialize form with the extracted fields from the backend response
   const fieldForms = (
-    <form onSubmit={handleSubmit} method="POST">
-      {fields.map((field) => {
+    <form onSubmit={handleSubmit}>
+      {Object.keys(fields).map((field) => {
         return (
           <div key={field}>
             <label htmlFor={field}>{field}: </label>
-            <input id={field} name={field} type="text" />
+            <input
+              id={field}
+              name={field}
+              type="text"
+              onChange={
+                (e) =>
+                  setFields((prev) => ({ ...prev, [field]: e.target.value })) // Sets fields at every keystroke
+              }
+            />
           </div>
         );
       })}
-      <button>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 
-  const fileData = selectedFile ? (
-    <div>
-      <h2>File Details:</h2>
-      <p>File Name: {selectedFile.name}</p>
-      <p>File Type: {selectedFile.type}</p>
-    </div>
-  ) : (
+  const fileData = selectedFile ? null : (
     <div>
       <br />
       <h4>Choose before Pressing the Upload button</h4>
@@ -67,13 +90,12 @@ export default function CoverLetter() {
     <div>
       <Header />
       <h1>Cover Letter Tools</h1>
-      <h3>File Upload using React!</h3>
       <div>
         <input type="file" onChange={onFileChange} />
-        <button onClick={onFileUpload}>Upload!</button>
+        <button onClick={onUpload}>Upload!</button>
       </div>
       {fileData}
-      {fieldForms}
+      {Object.keys(fields).length > 0 && fieldForms}
     </div>
   );
 }

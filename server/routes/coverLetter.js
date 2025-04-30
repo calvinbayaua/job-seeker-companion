@@ -11,7 +11,7 @@ const upload = multer({ storage: storage });
 //   res.json({ message: "Cover Letter Route" });
 // });
 
-router.post("/", upload.single("myFile"), (req, res) => {
+router.post("/upload", upload.single("myFile"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
@@ -36,6 +36,11 @@ router.post("/", upload.single("myFile"), (req, res) => {
     console.error("Error parsing .docx:", err);
     res.status(500).json({ error: "Failed to parse .docx file" });
   }
+});
+
+router.post("/submit", (req, res) => {
+  console.log("here");
+  res.json({ message: "here" });
 });
 
 module.exports = router;
