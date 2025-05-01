@@ -44,12 +44,32 @@ export default function CoverLetter() {
   // Send POST request to backend when Submit button is pressed
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const formData = new FormData();
+    formData.append("myFile", selectedFile);
+    formData.append("fields", JSON.stringify(fields));
 
     try {
       const response = await axios.post(
         "http://localhost:8080/api/coverletter/submit",
-        fields
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          responseType: "blob",
+        }
       );
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      // Create a download link and click it
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "filled_cover_letter.pdf"); // Set file name
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url); // Clean up
     } catch (error) {
       console.error("Error submitting form data:", error);
     }
