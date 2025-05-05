@@ -5,6 +5,7 @@ import Header from "../components/Header";
 export default function CoverLetter() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fields, setFields] = useState({});
+  const [downloadUrl, setDownloadUrl] = useState(null);
 
   // Set selectedFile to new selected file
   const onFileChange = (event) => {
@@ -60,20 +61,14 @@ export default function CoverLetter() {
         }
       );
 
-      const blob = new Blob([response.data], { type: "application/pdf" });
-      // Create a download link and click it
+      const blob = new Blob([response.data], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
       const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "filled_cover_letter.pdf"); // Set file name
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url); // Clean up
+      setDownloadUrl(url);
     } catch (error) {
       console.error("Error submitting form data:", error);
     }
-    console.log("Submitted fields:", fields);
   };
 
   // Initialize form with the extracted fields from the backend response
@@ -106,6 +101,15 @@ export default function CoverLetter() {
     </div>
   );
 
+  const downloadCoverLetter = () => {
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = `${fields["Company Name"]} Cover Letter.docx`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();    
+  };
+
   return (
     <div>
       <Header />
@@ -116,6 +120,7 @@ export default function CoverLetter() {
       </div>
       {fileData}
       {Object.keys(fields).length > 0 && fieldForms}
+      {downloadUrl && <button onClick={downloadCoverLetter}>Download</button>}
     </div>
   );
 }

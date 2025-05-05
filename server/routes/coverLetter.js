@@ -3,9 +3,6 @@ const router = express.Router();
 const multer = require("multer");
 const Docxtemplater = require("docxtemplater");
 const PizZip = require("pizzip");
-// const docxConverter = require("docx-pdf");
-const fs = require("fs");
-const path = require("path");
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -50,28 +47,16 @@ router.post("/submit", upload.single("myFile"), (req, res) => {
   });
 
   const parsedFields = JSON.parse(req.body.fields);
-  doc.render(JSON.parse(req.body.fields));
+  doc.render(parsedFields);
 
   const buffer = doc.getZip().generate({ type: "nodebuffer" });
 
-  fs.writeFileSync(path.resolve(__dirname, `${parsedFields["Company Name"]} Cover Letter.docx`), buffer);
-  // const tempDocxPath = path.join(__dirname, "temp.docx");
-  // const tempPDFPath = path.join(__dirname, "output.pdf");
+  res.set({
+    "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "Content-Disposition": `attachment; filename="${parsedFields["Company Name"]} Cover Letter"`,
+  });
 
-  // fs.writeFileSync(tempDocxPath, buffer);
-
-  // docxConverter(tempDocxPath, tempPDFPath, (err, result) => {
-  //   if (err) {
-  //     return res.status(500).json({ error: "PDF conversion failed" });
-  //   }
-
-  //   res.set({
-  //     "Content-Type": "application/pdf",
-  //     "Content-Disposition": "attachment; filename=filled_cover_letter.pdf",
-  //   });
-
-  //   fs.createReadStream(tempPDFPath).pipe(res);
-  // });
+  res.send(buffer);
 });
 
 module.exports = router;
