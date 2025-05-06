@@ -8,17 +8,14 @@ export default function CoverLetter() {
   const [downloadUrl, setDownloadUrl] = useState(null);
 
   // Set selectedFile to new selected file
-  const onFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+  const onFileChange = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
-  // Send POST request to backend when Upload button is pressed
-  // Initialize fields keys from backend response
-  const onUpload = async () => {
-    if (!selectedFile) return;
+    if (!file) return;
 
     const formData = new FormData();
-    formData.append("myFile", selectedFile, selectedFile.name);
+    formData.append("myFile", file, file.name);
 
     try {
       const response = await axios.post(
@@ -37,10 +34,41 @@ export default function CoverLetter() {
         initialFields[field] = "";
       });
       setFields(initialFields);
-    } catch (error) {
+
+    } catch (err) {
       console.error("Error uploading file:", error);
     }
   };
+
+  // Send POST request to backend when Upload button is pressed
+  // Initialize fields keys from backend response
+  // const onUpload = async () => {
+  //   if (!selectedFile) return;
+
+  //   const formData = new FormData();
+  //   formData.append("myFile", selectedFile, selectedFile.name);
+
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:8080/api/coverletter/upload",
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //       }
+  //     );
+
+  //     // * Consider changing fields directly
+  //     const initialFields = {};
+  //     response.data.fields.forEach((field) => {
+  //       initialFields[field] = "";
+  //     });
+  //     setFields(initialFields);
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //   }
+  // };
 
   // Send POST request to backend when Submit button is pressed
   const handleSubmit = async (event) => {
@@ -73,7 +101,7 @@ export default function CoverLetter() {
 
   // Initialize form with the extracted fields from the backend response
   const fieldForms = (
-    <form onSubmit={handleSubmit}>
+    <form className="cl-form" onSubmit={handleSubmit}>
       {Object.keys(fields).map((field) => {
         return (
           <div key={field}>
@@ -94,33 +122,30 @@ export default function CoverLetter() {
     </form>
   );
 
-  const fileData = selectedFile ? null : (
-    <div>
-      <br />
-      <h4>Choose before Pressing the Upload button</h4>
-    </div>
-  );
-
   const downloadCoverLetter = () => {
     const a = document.createElement("a");
     a.href = downloadUrl;
     a.download = `${fields["Company Name"]} Cover Letter.docx`;
     document.body.appendChild(a);
     a.click();
-    a.remove();    
+    a.remove();
   };
 
   return (
-    <div>
+    <>
       <Header />
-      <h1>Cover Letter Tools</h1>
-      <div>
-        <input type="file" onChange={onFileChange} />
-        <button onClick={onUpload}>Upload!</button>
+      <div className="cl-container">
+        <div className="cl-preview"></div>
+        <div className="cl-input">
+          <h1 className="cl-title">Fill Cover Letter Template</h1>
+          <input className="upload" type="file" onChange={onFileChange} />
+          {/* <button onClick={onUpload}>Upload!</button> */}
+          {Object.keys(fields).length > 0 && fieldForms}
+          {downloadUrl && (
+            <button className="cl-download" onClick={downloadCoverLetter}>Download</button>
+          )}
+        </div>
       </div>
-      {fileData}
-      {Object.keys(fields).length > 0 && fieldForms}
-      {downloadUrl && <button onClick={downloadCoverLetter}>Download</button>}
-    </div>
+    </>
   );
 }
