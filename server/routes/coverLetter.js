@@ -49,10 +49,21 @@ router.post("/submit", upload.single("myFile"), (req, res) => {
   const parsedFields = JSON.parse(req.body.fields);
   doc.render(parsedFields);
 
-  const buffer = doc.getZip().generate({ type: "nodebuffer" });
+  let rawXML = zip.file("word/document.xml").asText();
+
+  // Replace any word ending in 's’'s' with just 's’'
+  // Match pattern: any word ending in s or S, followed by RIGHT SINGLE QUOTE ’, then s
+  // Replace with: word ending in s/S, followed by just the RIGHT SINGLE QUOTE
+  rawXML = rawXML.replace(/(\b\w*[sS])’s\b/g, "$1’");
+
+  // Replace the modified XML back in the zip
+  zip.file("word/document.xml", rawXML);
+
+  const buffer = zip.generate({ type: "nodebuffer" });
 
   res.set({
-    "Content-Type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "Content-Type":
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
     "Content-Disposition": `attachment; filename="${parsedFields["Company Name"]} Cover Letter"`,
   });
 

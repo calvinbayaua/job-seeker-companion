@@ -40,36 +40,6 @@ export default function CoverLetter() {
     }
   };
 
-  // Send POST request to backend when Upload button is pressed
-  // Initialize fields keys from backend response
-  // const onUpload = async () => {
-  //   if (!selectedFile) return;
-
-  //   const formData = new FormData();
-  //   formData.append("myFile", selectedFile, selectedFile.name);
-
-  //   try {
-  //     const response = await axios.post(
-  //       "http://localhost:8080/api/coverletter/upload",
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     // * Consider changing fields directly
-  //     const initialFields = {};
-  //     response.data.fields.forEach((field) => {
-  //       initialFields[field] = "";
-  //     });
-  //     setFields(initialFields);
-  //   } catch (error) {
-  //     console.error("Error uploading file:", error);
-  //   }
-  // };
-
   // Send POST request to backend when Submit button is pressed
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -135,7 +105,6 @@ export default function CoverLetter() {
     <>
       <Header />
       <div className="cl-container">
-        <div className="cl-preview"></div>
         <div className="cl-input">
           <h1 className="cl-title">Fill Cover Letter Template</h1>
           <input className="upload" type="file" onChange={onFileChange} />
@@ -145,6 +114,7 @@ export default function CoverLetter() {
             <button className="cl-download" onClick={downloadCoverLetter}>Download</button>
           )}
         </div>
+        <div className="cl-preview"></div>
       </div>
     </>
   );

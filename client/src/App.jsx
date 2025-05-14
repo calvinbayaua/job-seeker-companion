@@ -5,23 +5,6 @@ import CoverLetter from "./pages/CoverLetter";
 import axios from "axios";
 
 function App() {
-  // const [array, setArray] = useState([]);
-
-  // const fetchAPI = async () => {
-  //   const response = await axios.get("http://localhost:8080/api");
-  //   setArray(response.data.fruits);
-  // };
-
-  // useEffect(() => {
-  //   fetchAPI();
-  // }, []);
-
-  // const fruits = array.map((fruit, index) => (
-  //   <div key={index}>
-  //     <p>{fruit}</p>
-  //   </div>
-  // ));
-
   return (
     <>
       <BrowserRouter>
@@ -30,7 +13,6 @@ function App() {
           <Route path="/tools/coverletter" element={<CoverLetter />} />
         </Routes>
       </BrowserRouter>
-      {/* {fruits} */}
     </>
   );
 }
