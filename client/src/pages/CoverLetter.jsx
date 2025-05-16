@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 
 export default function CoverLetter() {
@@ -7,7 +7,8 @@ export default function CoverLetter() {
   const [fields, setFields] = useState({});
   const [downloadUrl, setDownloadUrl] = useState(null);
 
-  // Set selectedFile to new selected file
+  // INIT - Initialize selectedFile to new selected file
+  // REQ - Send POST request to backend with the uploaded file
   const onFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
@@ -28,19 +29,19 @@ export default function CoverLetter() {
         }
       );
 
-      // * Consider changing fields directly
+      // Consider changing fields directly rather than using initialFields
       const initialFields = {};
       response.data.fields.forEach((field) => {
         initialFields[field] = "";
       });
       setFields(initialFields);
 
-    } catch (err) {
+    } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-  // Send POST request to backend when Submit button is pressed
+  // REQ - Send POST request to backend with form data when 'Submit' button is pressed
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -69,7 +70,7 @@ export default function CoverLetter() {
     }
   };
 
-  // Initialize form with the extracted fields from the backend response
+  // INIT - Initialize form with the extracted fields from the backend response
   const fieldForms = (
     <form className="cl-form" onSubmit={handleSubmit}>
       {Object.keys(fields).map((field) => {
@@ -95,7 +96,7 @@ export default function CoverLetter() {
   const downloadCoverLetter = () => {
     const a = document.createElement("a");
     a.href = downloadUrl;
-    a.download = `${fields["Company Name"]} Cover Letter.docx`;
+    a.download = "Cover Letter.docx";
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -108,7 +109,6 @@ export default function CoverLetter() {
         <div className="cl-input">
           <h1 className="cl-title">Fill Cover Letter Template</h1>
           <input className="upload" type="file" onChange={onFileChange} />
-          {/* <button onClick={onUpload}>Upload!</button> */}
           {Object.keys(fields).length > 0 && fieldForms}
           {downloadUrl && (
             <button className="cl-download" onClick={downloadCoverLetter}>Download</button>
