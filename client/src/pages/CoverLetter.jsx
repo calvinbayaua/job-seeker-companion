@@ -1,11 +1,14 @@
+import { useState, useRef } from "react";
 import axios from "axios";
-import { useState } from "react";
+import { renderAsync } from "docx-preview";
 import Header from "../components/Header";
 
 export default function CoverLetter() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [fields, setFields] = useState({});
   const [downloadUrl, setDownloadUrl] = useState(null);
+
+  const previewRef = useRef(null);
 
   // INIT - Initialize selectedFile to new selected file
   // REQ - Send POST request to backend with the uploaded file
@@ -35,7 +38,6 @@ export default function CoverLetter() {
         initialFields[field] = "";
       });
       setFields(initialFields);
-
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -65,6 +67,9 @@ export default function CoverLetter() {
       });
       const url = window.URL.createObjectURL(blob);
       setDownloadUrl(url);
+
+      const arrayBuffer = await blob.arrayBuffer();
+      renderAsync(arrayBuffer, previewRef.current);
     } catch (error) {
       console.error("Error submitting form data:", error);
     }
@@ -111,10 +116,12 @@ export default function CoverLetter() {
           <input className="upload" type="file" onChange={onFileChange} />
           {Object.keys(fields).length > 0 && fieldForms}
           {downloadUrl && (
-            <button className="cl-download" onClick={downloadCoverLetter}>Download</button>
+            <button className="cl-download" onClick={downloadCoverLetter}>
+              Download
+            </button>
           )}
         </div>
-        <div className="cl-preview"></div>
+        <div className="cl-preview" ref={previewRef}></div>
       </div>
     </>
   );
