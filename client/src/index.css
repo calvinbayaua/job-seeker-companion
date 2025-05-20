@@ -33,7 +33,7 @@ header > nav {
 }
 
 header > nav > a {
-  padding: 0px 35px;
+  padding: 0px 30px;
   font-size: 1rem;
   font-weight: bold;
   text-decoration: none;
@@ -95,7 +95,22 @@ header > nav > a {
   font-family: "Inter", sans-serif;
 }
 
+.cl-subclear {
+  display: flex;
+  flex-direction: row;
+  min-height: 40px;
+  gap: 10px;
+}
+
+.cl-submit {
+  width: 90%;
+}
+
+.cl-clear {
+  width: 10%;
+}
+
 .cl-download {
-  width: 74%;
+  width: 73%;
   min-height: 40px;
 }

@@ -43,6 +43,14 @@ export default function CoverLetter() {
     }
   };
 
+  const clearForm = () => {
+    const clearedFields = {};
+    Object.keys(fields).forEach((field) => {
+      clearedFields[field] = "";
+    });
+    setFields(clearedFields);
+  };
+
   // REQ - Send POST request to backend with form data when 'Submit' button is pressed
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -77,25 +85,35 @@ export default function CoverLetter() {
 
   // INIT - Initialize form with the extracted fields from the backend response
   const fieldForms = (
-    <form className="cl-form" onSubmit={handleSubmit}>
-      {Object.keys(fields).map((field) => {
-        return (
-          <div key={field}>
-            <label htmlFor={field}>{field}: </label>
-            <input
-              id={field}
-              name={field}
-              type="text"
-              onChange={
-                (e) =>
-                  setFields((prev) => ({ ...prev, [field]: e.target.value })) // Sets fields at every keystroke
-              }
-            />
-          </div>
-        );
-      })}
-      <button type="submit">Submit</button>
-    </form>
+    <>
+      <form className="cl-form" onSubmit={handleSubmit}>
+        {Object.keys(fields).map((field) => {
+          return (
+            <div key={field}>
+              <label htmlFor={field}>{field}:</label>
+              <input
+                id={field}
+                name={field}
+                type="text"
+                value={fields[field]}
+                onChange={
+                  (e) =>
+                    setFields((prev) => ({ ...prev, [field]: e.target.value })) // Sets fields at every keystroke
+                }
+              />
+            </div>
+          );
+        })}
+        <div className="cl-subclear">
+          <button className="cl-submit" type="submit">
+            Submit
+          </button>
+          <button className="cl-clear" onClick={clearForm}>
+            X
+          </button>
+        </div>
+      </form>
+    </>
   );
 
   const downloadCoverLetter = () => {

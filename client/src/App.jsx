@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Resume from "./pages/Resume";
 import CoverLetter from "./pages/CoverLetter";
-import axios from "axios";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -10,7 +10,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/tools/coverletter" element={<CoverLetter />} />
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/coverletter" element={<CoverLetter />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </BrowserRouter>
     </>
