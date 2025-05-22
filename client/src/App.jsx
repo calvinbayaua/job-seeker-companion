@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Resume from "./pages/Resume";
+import Applications from "./pages/Applications";
 import CoverLetter from "./pages/CoverLetter";
 import Account from "./pages/Account";
 
@@ -10,7 +10,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
-          <Route path="/resume" element={<Resume />} />
+          <Route path="/applications" element={<Applications />} />
           <Route path="/coverletter" element={<CoverLetter />} />
           <Route path="/account" element={<Account />} />
         </Routes>

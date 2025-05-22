@@ -45,13 +45,15 @@ header > nav > a {
   overflow: hidden;
 }
 
-.cl-container {
+.cl-container,
+.appl-container {
   display: flex;
   flex-direction: row;
   height: 100vh;
 }
 
-.cl-input {
+.cl-input,
+.appl-input {
   width: 30%;
   padding: 20px;
   box-sizing: border-box;
@@ -63,7 +65,8 @@ header > nav > a {
   align-items: center;
 }
 
-.cl-preview {
+.cl-preview,
+.appl-preview {
   width: 70%;
   padding: 20px;
   box-sizing: border-box;
@@ -75,13 +78,15 @@ header > nav > a {
   margin-bottom: 20px;
 }
 
-.cl-form {
+.cl-form,
+.appl-form {
   display: grid;
   gap: 17px;
   margin-bottom: 17px;
 }
 
-.cl-form input {
+.cl-form input,
+.appl-form input {
   width: 100%;
   margin-top: 5px;
   border-radius: 5px;
@@ -90,7 +95,9 @@ header > nav > a {
 }
 
 .cl-form input,
-.cl-form button {
+.cl-form button,
+.appl-form input,
+.appl-form button {
   min-height: 40px;
   font-family: "Inter", sans-serif;
 }
