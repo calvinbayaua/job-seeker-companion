@@ -92,13 +92,12 @@ export default function CoverLetter() {
             <div key={field}>
               <label htmlFor={field}>{field}:</label>
               <input
-                id={field}
                 name={field}
                 type="text"
                 value={fields[field]}
                 onChange={
-                  (e) =>
-                    setFields((prev) => ({ ...prev, [field]: e.target.value })) // Sets fields at every keystroke
+                  (event) =>
+                    setFields((prev) => ({ ...prev, [field]: event.target.value })) // Sets fields at every keystroke
                 }
               />
             </div>

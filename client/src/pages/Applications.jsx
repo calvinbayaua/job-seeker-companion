@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import Header from "../components/Header";
 
 export default function Applications() {
@@ -9,9 +10,30 @@ export default function Applications() {
     date: "",
   });
 
-  const handleChange = () => {};
+  const handleChange = (event) => {
+    setInput((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/applications/submit",
+        input,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      console.log("POST request sent: ", response.data);
+    } catch (error) {
+      console.error("Error submitting form data:", error);
+    }
+  };
 
   return (
     <>
@@ -20,48 +42,42 @@ export default function Applications() {
         <div className="appl-input">
           <h1 className="appl-title">Add Application</h1>
           <form className="appl-form" onSubmit={handleSubmit}>
-            <div className="form-group">
+            <div>
               <label htmlFor="companyName">Company Name</label>
               <input
-                id="companyName"
-                type="text"
                 name="companyName"
+                type="text"
                 value={input.companyName}
                 onChange={handleChange}
-                required
               />
             </div>
 
-            <div className="form-group">
+            <div>
               <label htmlFor="jobTitle">Job Title</label>
               <input
-                id="jobTitle"
-                type="text"
                 name="jobTitle"
+                type="text"
                 value={input.jobTitle}
                 onChange={handleChange}
-                required
               />
             </div>
 
-            <div className="form-group">
+            <div>
               <label htmlFor="location">Location</label>
               <input
-                id="location"
-                type="text"
                 name="location"
+                type="text"
                 value={input.location}
                 onChange={handleChange}
               />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="dateApplied">Date Applied</label>
+            <div>
+              <label htmlFor="date">Date Applied</label>
               <input
-                id="dateApplied"
+                name="date"
                 type="date"
-                name="dateApplied"
-                value={input.dateApplied}
+                value={input.date}
                 onChange={handleChange}
               />
             </div>
