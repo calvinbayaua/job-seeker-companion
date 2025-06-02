@@ -6,8 +6,14 @@ export default function Applications() {
   const [input, setInput] = useState({
     companyName: "",
     jobTitle: "",
+    jobType: "",
     location: "",
+    locationType: "",
     date: "",
+    link: "",
+    easyApply: "",
+    coverLetterSent: "",
+    status: "",
   });
 
   const handleChange = (event) => {
@@ -60,6 +66,25 @@ export default function Applications() {
                 value={input.jobTitle}
                 onChange={handleChange}
               />
+            </div>
+
+            <div>
+              <label>Job Type</label>
+              <div className="job-type-buttons">
+                {["Full Time", "Part Time", "Contract", "Internship"].map(
+                  (type) => (
+                    <button
+                      key={type}
+                      className={input.jobType === type ? "selected" : ""}
+                      onClick={() =>
+                        setInput((prev) => ({ ...prev, jobType: type }))
+                      }
+                    >
+                      {type}
+                    </button>
+                  )
+                )}
+              </div>
             </div>
 
             <div>

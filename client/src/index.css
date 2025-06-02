@@ -6,6 +6,7 @@ body {
   margin: 0;
   font-family: Inter, sans-serif;
   background-color: #ffffff;
+  overflow: hidden;
 }
 
 header {
@@ -50,6 +51,7 @@ header > nav > a {
   display: flex;
   flex-direction: row;
   height: 100vh;
+  overflow-y: auto;
 }
 
 .cl-input,
@@ -126,4 +128,34 @@ header > nav > a {
   word-break: normal;
   overflow-wrap: normal;
   hyphens: none;
+}
+
+.job-type-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.job-type-buttons button {
+  flex: 1 1 auto;
+  padding: 10px 15px;
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  border: 1px solid #d5d4d8;
+  border-radius: 5px;
+  background-color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.job-type-buttons button:hover {
+  background-color: #e0f7f7;
+  border-color: rgb(125, 208, 208);
+}
+
+.job-type-buttons button.selected {
+  background-color: rgb(125, 208, 208);
+  color: white;
+  border-color: rgb(125, 208, 208);
 }
