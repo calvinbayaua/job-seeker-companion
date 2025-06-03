@@ -70,11 +70,12 @@ export default function Applications() {
 
             <div>
               <label>Job Type</label>
-              <div className="job-type-buttons">
+              <div className="appl-form-buttons">
                 {["Full Time", "Part Time", "Contract", "Internship"].map(
                   (type) => (
                     <button
                       key={type}
+                      type="button"
                       className={input.jobType === type ? "selected" : ""}
                       onClick={() =>
                         setInput((prev) => ({ ...prev, jobType: type }))
@@ -98,6 +99,60 @@ export default function Applications() {
             </div>
 
             <div>
+              <label>Location Type</label>
+              <div className="appl-form-buttons">
+                {["On-site", "Hybrid", "Remote"].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={input.locationType === type ? "selected" : ""}
+                    onClick={() =>
+                      setInput((prev) => ({ ...prev, locationType: type }))
+                    }
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label>Easy Apply</label>
+              <div className="appl-form-buttons">
+                {["Yes", "No"].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={input.easyApply === type ? "selected" : ""}
+                    onClick={() =>
+                      setInput((prev) => ({ ...prev, easyApply: type }))
+                    }
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label>Cover Letter</label>
+              <div className="appl-form-buttons">
+                {["Yes", "No"].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={input.coverLetterSent === type ? "selected" : ""}
+                    onClick={() =>
+                      setInput((prev) => ({ ...prev, coverLetterSent: type }))
+                    }
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
               <label htmlFor="date">Date Applied</label>
               <input
                 name="date"
@@ -105,6 +160,34 @@ export default function Applications() {
                 value={input.date}
                 onChange={handleChange}
               />
+            </div>
+
+            <div>
+              <label htmlFor="link">Link</label>
+              <input
+                name="link"
+                type="text"
+                value={input.link}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <label>Status</label>
+              <div className="appl-form-buttons">
+                {["Accepted", "Processing", "Rejected"].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={input.status === type ? "selected" : ""}
+                    onClick={() =>
+                      setInput((prev) => ({ ...prev, status: type }))
+                    }
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <button type="submit">Submit</button>

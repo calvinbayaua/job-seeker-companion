@@ -2,8 +2,10 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
   font-family: Inter, sans-serif;
   background-color: #ffffff;
   overflow: hidden;
@@ -50,18 +52,18 @@ header > nav > a {
 .appl-container {
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: calc(100vh - 55px);
   overflow-y: auto;
 }
 
 .cl-input,
 .appl-input {
+  height: 100%;
   width: 30%;
   padding: 20px;
   box-sizing: border-box;
   border-right: 1px solid #ddd; /* Optional: adds visual separation */
   overflow-y: auto;
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,11 +71,12 @@ header > nav > a {
 
 .cl-preview,
 .appl-preview {
+  height: 100%;
   width: 70%;
   padding: 20px;
   box-sizing: border-box;
-  overflow-y: auto;
   background-color: #f2f2f2;
+  overflow-y: auto;
 }
 
 .upload {
@@ -130,14 +133,14 @@ header > nav > a {
   hyphens: none;
 }
 
-.job-type-buttons {
+.appl-form-buttons {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
   margin-top: 5px;
 }
 
-.job-type-buttons button {
+.appl-form-buttons button {
   flex: 1 1 auto;
   padding: 10px 15px;
   font-family: "Inter", sans-serif;
@@ -149,12 +152,12 @@ header > nav > a {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
-.job-type-buttons button:hover {
+.appl-form-buttons button:hover {
   background-color: #e0f7f7;
   border-color: rgb(125, 208, 208);
 }
 
-.job-type-buttons button.selected {
+.appl-form-buttons button.selected {
   background-color: rgb(125, 208, 208);
   color: white;
   border-color: rgb(125, 208, 208);
