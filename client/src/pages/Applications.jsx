@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../components/Header";
+import ApplicationsTable from "../components/ApplicationsTable";
 
 export default function Applications() {
   const [input, setInput] = useState({
@@ -15,6 +16,22 @@ export default function Applications() {
     coverLetterSent: "",
     status: "",
   });
+  const [applications, setApplications] = useState([]);
+
+  const fetchApplications = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/applications/"
+      );
+      setApplications(response.data);
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
 
   const handleChange = (event) => {
     setInput((prev) => ({
@@ -36,6 +53,7 @@ export default function Applications() {
         }
       );
       console.log("POST request sent: ", response.data);
+      fetchApplications();
     } catch (error) {
       console.error("Error submitting form data:", error);
     }
@@ -193,7 +211,9 @@ export default function Applications() {
             <button type="submit">Submit</button>
           </form>
         </div>
-        <div className="appl-preview"></div>
+        <div className="appl-preview">
+          <ApplicationsTable applications={applications} />
+        </div>
       </div>
     </>
   );
